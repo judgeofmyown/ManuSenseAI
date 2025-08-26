@@ -1,8 +1,11 @@
 import torch
+from torch import Tensor
 import torch.nn as nn
+import numpy as np
 import torch.nn.functional as F
 from typing import List
-from anomaly.pipeline import feature_freq_domain
+from anomaly import feature_freq_domain
+from sklearn.metrics.pairwise import euclidean_distances
 
 """
     FSENet: Feature Squeeze-and-Excitation Network for Frequency Matrix Attention
@@ -104,6 +107,8 @@ class FSENet(nn.Module):
             
             # Global average pooling over spatial dims (H, W) per out channel
             weights = freq_conv.mean(dim=(1, 2)) # shape: [C']
+
+            # Excitation on each channel could be done here [!!!!!!!!!!!!!!!!!!!!!!!!!!!!] 
             
             # Reshape for broadcastig: [C', 1, 1]
             weights = weights.view(-1, 1, 1)
@@ -114,10 +119,10 @@ class FSENet(nn.Module):
             # Apply non-linearity
             V_hw = torch.tanh(reweighted) # shape: [C', H, W]
 
-            results.append(V_hw)
+            result.append(V_hw)
         
         # stack over original channels -> shape: [C, C', H, W]
-        return torch.stack(results, dim=0), V_hw.shape[1], V_hw.shape[3]
+        return torch.stack(result, dim=0), V_hw.shape[1], V_hw.shape[3]
 
 # Good Ol simple LSTM model 
 """
@@ -182,4 +187,31 @@ class DNN(nn.Module):
 
     def forward(self, x):
         return self.model(x) # x shape: [C, input_size]
+
+
+
+class AnomalyCluster(nn.Module):
+    """
+    simple anomaly cluster for an MVP
+    input : [C', H, W]
+    [C', H, w] -> [H, W] -> avg;
+    output: label anomaly or not after aggregating.
+    """
+    def __init__(self, threshold=1.0):
+        super().__init__()
+        self.normal_embeddings = []
+        self.threshold = threshold
+    
+    def remember(self, emb):
+        self.normal_embeddings.append(emb.detach().cpu().numpy())
+    
+    def compute_anomaly_score(self, emb):
+        emb_np = emb.detach().cpu().numpy().reshape(1, -1)
+        all_normals = np.vstack(self.normal_embeddings)
+        dists = euclidean_distances(emb_np, all_normals)
+        min_dist = np.min(dists);
+
+    def is_anomaly(self, emb):
+        score = self.compute_anomaly_score(emb)
+        return score > self.threshold, score
 

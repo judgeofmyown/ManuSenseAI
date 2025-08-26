@@ -1,0 +1,47 @@
+drop_low_std_cols:
+  enabled: false
+  std_threshold: 1e-2
+
+fill_missing:
+  enabled: false
+  fill_method: 'ffill'
+
+standardize:
+  enabled: true
+  scaler: StandardScaler
+
+drop_cols:
+  enabled: true
+  features_to_delete:
+    FD001:
+      - time
+      - ops-set-1
+      - ops-set-2
+      - ops-set-3
+      - sensor-1
+      - sensor-5
+      - sensor-6
+      - sensor-10
+      - sensor-16
+      - sensor-18
+      - sensor-19
+    FD002:
+      - time
+      - sensor-16
+    FD003:
+      - time
+      - ops-set-1
+      - ops-set-2
+      - ops-set-3
+      - sensor-1
+      - sensor-5
+      - sensor-10
+      - sensor-16
+      - sensor-18
+      - sensor-19
+    FD004:
+      - time
+      - sensor-16
+
+reset_index:
+  enabled: true

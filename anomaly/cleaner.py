@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from sklearn.preprocessing import StandardScaler
 
 """
 # composing pipelines
@@ -23,3 +24,16 @@ def drop_low_std_cols(df: pd.DataFrame, std_threshold=1e2) -> pd.DataFrame:
 
 def fill_missing(df: pd.DataFrame, method='ffill') -> pd.DataFrame:
     return df.fillna(method=method)
+
+def standardize(df: pd.DataFrame) -> pd.DataFrame:
+    scaler = StandardScaler()
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    df_scaled = df.copy()
+    df_scaled[numeric_cols] = scaler.fit_transform(df[numeric_cols])
+    return df_scaled
+
+def drop_cols(df: pd.DataFrame, cols_to_drop: list) -> pd.DataFrame:
+    return df.drop(columns=cols_to_drop)
+
+def reset_index(df: pd.DataFrame) -> pd.DataFrame:
+    return df.reset_index(drop=True)

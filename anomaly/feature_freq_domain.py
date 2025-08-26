@@ -30,15 +30,10 @@ def freq_matrix(x: Tensor, N: int, T: int) -> Tensor:
 
     for i in range(M):
         window = time_series_dataset[i]
-
         ts_matrix = window.unfold(dimension=0, size=T, step=1)
-
         ts_matrix = ts_matrix.to(torch.complex64)
-
         fft_matrix = torch.fft.fft(ts_matrix, dim=1)
-
         fft_matrix = fft_matrix[: , :F]
-
         freq_matrices.append(freq_matrix)
 
     return torch.stack(freq_matrices, dim=0)

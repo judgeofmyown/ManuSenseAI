@@ -24,7 +24,7 @@
   User-friendly and lightweight graphical interface, ideal for operators and engineers.
 
 - 🛠️ **Easily Customizable for Any Machine**  
-  Tailor the tool to fit your company's specific device or system by adjusting the input schema.
+  Tailor the tool to fit your organization's specific device or system by adjusting the input schema.
 
 - 📁 **Industrial Dataset-Backed**  
   Trained and tested on NASA’s CMAPSS Turbofan Engine Degradation Dataset.

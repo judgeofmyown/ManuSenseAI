@@ -1,0 +1,43 @@
+dataset_name: CMAPSSData
+description: NASA turbofan dataset for RUL prediction and anomaly detection
+data_path:
+  train:
+  - ../../Data/CMAPSSData/train_FD001.txt
+  - ../../Data/CMAPSSData/train_FD002.txt
+  - ../../Data/CMAPSSData/train_FD003.txt
+  - ../../Data/CMAPSSData/train_FD004.txt
+  test:
+  - ../../Data/CMAPSSData/test_FD001.txt
+  - ../../Data/CMAPSSData/test_FD002.txt
+  - ../../Data/CMAPSSData/test_FD003.txt
+  - ../../Data/CMAPSSData/test_FD004.txt
+
+metadata:
+  features:
+  - number
+  - time
+  - ops_set_1
+  - ops-set-2
+  - ops-set-3
+  - sensor-1
+  - sensor-2
+  - sensor-3
+  - sensor-4
+  - sensor-5
+  - sensor-6
+  - sensor-7
+  - sensor-8
+  - sensor-9
+  - sensor-10
+  - sensor-11
+  - sensor-12
+  - sensor-13
+  - sensor-14
+  - sensor-15
+  - sensor-16
+  - sensor-17
+  - sensor-18
+  - sensor-19
+  - sensor-20
+  - sensor-21
+
